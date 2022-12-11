@@ -1,5 +1,6 @@
 import React from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Link from "next/link";
 type indexProps = {
   test: String;
   ayam?: String;
@@ -11,7 +12,7 @@ const Headers = ({ test, ayam }: indexProps) => {
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex-1 md:flex md:items-center md:gap-12">
-            <a className="block text-teal-600 dark:text-teal-300" href="/">
+            <Link className="block text-teal-600 dark:text-teal-300" href="/">
               <span className="sr-only">Home</span>
               <svg
                 className="h-8"
@@ -24,19 +25,19 @@ const Headers = ({ test, ayam }: indexProps) => {
                   fill="currentColor"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
 
           <div className="md:flex md:items-center md:gap-12">
             <nav aria-label="Site Nav" className="hidden md:block">
               <ul className="flex items-center gap-6 text-sm">
                 <li>
-                  <a
+                  <Link
                     className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
                     href="/"
                   >
                     About
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </nav>
