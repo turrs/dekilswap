@@ -1,9 +1,27 @@
-import React, { useState } from "react";
+import React, { ContextType, useContext, useEffect, useState } from "react";
+import { TokenListContext } from "../../context/TokenList";
 
 type SelectModalProps = {};
 
 const SelectModal = (props: SelectModalProps) => {
   const [showModal, setShowModal] = useState(false);
+  const [listToken, setListToken] = useState<any | undefined>();
+  const { token, setToken, fetchTokenData } =
+    React.useContext(TokenListContext);
+  const fetchData = async () => {
+    console.log("qwe");
+    await fetchTokenData().then((res: any) => {
+      console.log(res);
+    });
+
+    console.log(listToken);
+  };
+  useEffect(() => {
+    if (showModal) {
+      fetchData();
+    }
+  }, [showModal]);
+
   return (
     <div>
       <div

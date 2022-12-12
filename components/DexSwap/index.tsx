@@ -28,7 +28,7 @@ const DexSwap = (props: DexSwapProps) => {
 
   return (
     <div className="flex items-center pt-10 flex-col">
-      <div className="flex rounded shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-96 h-64 max-h-full">
+      <div className="flex rounded shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] w-96 h-full max-h-full">
         <div className="p-8 w-full h-full">
           {loading ? (
             <>

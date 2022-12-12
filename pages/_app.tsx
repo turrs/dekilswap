@@ -7,6 +7,12 @@ import "remixicon/fonts/remixicon.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 
+import { ReactNode, useContext } from "react";
+import {
+  TransactionProvider,
+  TransactionContext,
+} from "../context/Transaction";
+import { TokenListProvider } from "../context/TokenList";
 const { chains, provider } = configureChains(
   [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
   [
@@ -25,12 +31,17 @@ const wagmiClient = createClient({
   connectors,
   provider,
 });
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
-        <Component {...pageProps} />{" "}
-      </RainbowKitProvider>
-    </WagmiConfig>
+    <TransactionProvider>
+      <TokenListProvider>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider chains={chains}>
+            <Component {...pageProps} />
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </TokenListProvider>
+    </TransactionProvider>
   );
 }
