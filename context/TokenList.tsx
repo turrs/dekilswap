@@ -11,8 +11,7 @@ export const TokenListProvider = ({ children }: TokenListProps) => {
   const [token, setToken] = React.useState(3);
   const fetchTokenData = async () => {
     const response = ListToken.get("").then((res) => {
-      setToken(res.data.tokens);
-      return res;
+      setToken(res.data);
     });
   };
   return (

@@ -1,38 +1,170 @@
 import React, { ContextType, useContext, useEffect, useState } from "react";
 import { TokenListContext } from "../../context/TokenList";
+import { TransactionContext } from "../../context/Transaction";
+import { ListToken } from "../../utils";
+import axios from "axios";
+import DisplayBalance from "../DisplayBalance";
+import { daysInYear } from "date-fns";
+type SelectModalProps = {
+  type: any;
+};
 
-type SelectModalProps = {};
-
-const SelectModal = (props: SelectModalProps) => {
+const SelectModal = (type: SelectModalProps) => {
   const [showModal, setShowModal] = useState(false);
-  const [listToken, setListToken] = useState<any | undefined>();
+  const [listToken, setListToken] = useState<any | undefined>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [walletTokenBalance, setWalletTokenBalance] = useState<any>([]);
+  const [listWalletWithTokenBalance, setListWalletWithTokenBalance] =
+    useState<any>([]);
   const { token, setToken, fetchTokenData } =
     React.useContext(TokenListContext);
+  const { tokenTwo, setTokenTwo, tokenOne, setTokenOne } =
+    useContext(TransactionContext);
+  function checkAvailability(arr: any, val: any) {
+    return arr.some((arrVal: any) => val === arrVal.address);
+  }
+  function findObjectToken(arr: any, value: any) {
+    if (Array.isArray(arr)) {
+      return arr.find((balance) => {
+        return balance.contractAddress === value ? 1 : 2;
+      });
+    }
+  }
   const fetchData = async () => {
-    console.log("qwe");
-    await fetchTokenData().then((res: any) => {
-      console.log(res);
+    setLoading(true);
+    const responseListToken = await ListToken.get("").then((res) => {
+      setListToken(res.data.tokens);
+      return res.data.tokens;
     });
 
-    console.log(listToken);
+    const options = {
+      method: "POST",
+      url: "https://polygon-mainnet.g.alchemy.com/v2/YTQiZJGziVyT9G8R1BhEYdhZhdQrgEyV",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+      },
+      data: {
+        id: 1,
+        jsonrpc: "2.0",
+        method: "alchemy_getTokenBalances",
+        params: ["0x633CB277E735331aFA40aaEb74F62BA6CbA43c9d"],
+      },
+    };
+
+    const walletBalance = await axios
+      .request(options)
+      .then(function (response) {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+
+    const nonZeroBalances = await walletBalance.result.tokenBalances.filter(
+      (token: any) => {
+        return token.tokenBalance !== 0;
+      }
+    );
+
+    let i = 1;
+    let data: any = [];
+    for (let token of nonZeroBalances) {
+      if (checkAvailability(responseListToken, token.contractAddress)) {
+        let balance = token.tokenBalance;
+
+        // options for making a request to get the token metadata
+        const options = {
+          method: "POST",
+          url: "https://polygon-mainnet.g.alchemy.com/v2/YTQiZJGziVyT9G8R1BhEYdhZhdQrgEyV",
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+          },
+          data: {
+            id: 1,
+            jsonrpc: "2.0",
+            method: "alchemy_getTokenMetadata",
+            params: [token.contractAddress],
+          },
+        };
+
+        // getting the token metadata
+        const metadata = await axios.request(options);
+
+        // Compute token balance in human-readable format
+        balance = balance / Math.pow(10, metadata["data"]["result"].decimals);
+        balance = balance.toFixed(2);
+
+        const dataBalance = {
+          contractAddress: token.contractAddress,
+          balanceToken: balance,
+        };
+
+        const temp = responseListToken;
+        data = [...data, dataBalance];
+      }
+
+      let tempData = responseListToken;
+      data.map((arr: any) => {
+        const index = responseListToken.findIndex((object: any) => {
+          return object.address === arr.contractAddress;
+        });
+        tempData[index].balance = arr.balanceToken;
+      });
+      tempData.sort((a: any, b: any) => b.balance - a.balance);
+
+      setListWalletWithTokenBalance(tempData);
+    }
+
+    // Get balance of token
+    setLoading(false);
+  };
+  const TokenOneString = "tokenOne";
+  const openModal = () => {
+    if (listWalletWithTokenBalance.length === 0) {
+      setLoading(true);
+      fetchData();
+      setShowModal(true);
+      setLoading(false);
+    }
+    setShowModal(true);
   };
   useEffect(() => {
-    if (showModal) {
-      fetchData();
+    if (showModal === true && listToken !== null) {
+      openModal();
     }
   }, [showModal]);
-
+  const selectToken = (type: any, token: any) => {
+    if (type.type.type === TokenOneString) {
+      setTokenOne(token);
+      setShowModal(false);
+    }
+    if (type.type.type === "tokenTwo") {
+      setTokenTwo(token);
+      setShowModal(false);
+    }
+  };
+  useEffect(() => {}, [tokenOne, tokenTwo]);
   return (
     <div>
       <div
-        className="flex flex-row  rounded-md hover:bg-slate-50"
-        onClick={() => setShowModal(true)}
+        className="flex flex-row  rounded-md hover:bg-slate-50 cursor-pointer"
+        onClick={openModal}
       >
         <div className="p-1">
-          <img src="https://wallet-asset.matic.network/img/tokens/eth.svg"></img>
+          <img
+            src={
+              type.type.type === TokenOneString
+                ? tokenOne.logoURI
+                : tokenTwo.logoURI
+            }
+          ></img>
         </div>
         <div className="p-1">
-          <p className="font-sans font-semibold">PIP</p>
+          {type.type.type === TokenOneString
+            ? tokenOne.symbol
+            : tokenTwo.symbol}
         </div>
       </div>
       {showModal && (
@@ -41,13 +173,13 @@ const SelectModal = (props: SelectModalProps) => {
             className="fixed inset-0 w-full h-full bg-black opacity-40"
             onClick={() => setShowModal(false)}
           ></div>
-          <div className="flex  min-h-screen px-4 py-8">
-            <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg">
+          <div className="flex  min-h-screen  -px-2  justify-center py-8">
+            <div className="relative w-full max-w-lg p-6 mx-auto bg-white rounded-md shadow-lg">
               <div className="mt-3 sm:flex w-full">
-                <div className="mt-2 text-center sm:ml-4 sm:text-left w-full">
+                <div className="mt-2 text-center sm:ml-1 sm:text-left w-full">
                   <div className="flex flex-col w-full">
-                    <div className="flex flex-row justify-between w-full pb-5">
-                      <div className="bg-slate-100 rounded-sm w-[40px] h-[40px] flex justify-center items-center">
+                    <div className="flex flex-row justify-between w-full py-2">
+                      <div className="bg-slate-100 rounded-sm p-2 w-[40px] h-[40px] flex justify-center items-center">
                         <i className="ri-search-line"></i>
                       </div>
                       <div className="w-full">
@@ -63,36 +195,41 @@ const SelectModal = (props: SelectModalProps) => {
                         <i className="ri-close-circle-line"></i>
                       </div>
                     </div>
-                    <div className="flex flex-row py-3 w-full rounded hover:bg-slate-200">
-                      <div className="px-5">
-                        <div className="p-2 bg-slate-50 rounded flex justify-center items-center">
-                          <img src="https://wallet-asset.matic.network/img/tokens/matic.svg"></img>
-                        </div>
-                      </div>
-                      <div className="flex shrink flex-row w-full justify-between items-center">
-                        <div className="px-2">
-                          <p className="font-mono font-semibold">Matic</p>
-                        </div>
-                        <div className="px-2">
-                          <p className="font-mono font-semibold">1</p>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex flex-row py-3 w-full rounded hover:bg-slate-200">
-                      <div className="px-5">
-                        <div className="p-2 bg-slate-50 rounded flex justify-center items-center">
-                          <img src="https://wallet-asset.matic.network/img/tokens/matic.svg"></img>
-                        </div>
-                      </div>
-                      <div className="flex shrink flex-row w-full justify-between items-center">
-                        <div className="px-2">
-                          <p className="font-mono font-semibold">Matic</p>
-                        </div>
-                        <div className="px-2">
-                          <p className="font-mono font-semibold">1</p>
-                        </div>
-                      </div>
-                    </div>
+
+                    {!loading &&
+                      listWalletWithTokenBalance.map((token: any, key: any) => {
+                        return (
+                          <div
+                            key={key}
+                            className="flex flex-row py-3 pl-2  rounded hover:bg-slate-200"
+                            onClick={() => selectToken(type, token)}
+                          >
+                            <div className=" bg-slate-50 rounded  flex justify-center items-center">
+                              <div className="p-2">
+                                <img
+                                  src={token.logoURI}
+                                  width={40}
+                                  height={40}
+                                ></img>
+                              </div>
+                            </div>
+                            <div className="flex shrink flex-row justify-between w-full items-center">
+                              <div className="p-2 w-full">
+                                <p className="font-mono font-semibold">
+                                  {token.name}
+                                </p>
+                              </div>
+                              <div className="p-2">
+                                <p className="font-mono font-semibold">
+                                  {token.balance === undefined
+                                    ? 0
+                                    : token.balance}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
                   </div>
                 </div>
               </div>

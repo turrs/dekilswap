@@ -1,9 +1,11 @@
 import React from "react";
 import SelectModal from "../SelectModal";
 
-type SelectTokenProps = {};
+type SelectTokenProps = {
+  type: any;
+};
 
-const SelectToken = (props: SelectTokenProps) => {
+const SelectToken = (type: SelectTokenProps) => {
   return (
     <div>
       <div className="pb-2">
@@ -13,7 +15,7 @@ const SelectToken = (props: SelectTokenProps) => {
       </div>
       <div className="flex py-2 w-80 bg-slate-100 rounded-lg flex-row justify-between">
         <div className="px-3">
-          <SelectModal />
+          <SelectModal type={type} />
         </div>
         <div className="px-3">
           <input

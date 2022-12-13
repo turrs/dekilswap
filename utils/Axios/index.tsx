@@ -2,7 +2,7 @@ import axios from "axios";
 
 const ListToken = axios.create({
   baseURL:
-    "https://api-polygon-tokens.polygon.technology/tokenlists/popularTokens.tokenlist.json",
+    "https://api-polygon-tokens.polygon.technology/tokenlists/polygonTokens.tokenlist.json",
 });
 
 const PriceToken = axios.create({
