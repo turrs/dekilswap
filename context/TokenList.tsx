@@ -9,13 +9,22 @@ type TokenListProps = {
 
 export const TokenListProvider = ({ children }: TokenListProps) => {
   const [token, setToken] = React.useState(3);
+  const apiKey = "YTQiZJGziVyT9G8R1BhEYdhZhdQrgEyV";
   const fetchTokenData = async () => {
     const response = ListToken.get("").then((res) => {
-      setToken(res.data);
+      setToken(res.data.tokens);
     });
   };
+
   return (
-    <TokenListContext.Provider value={{ token, setToken, fetchTokenData }}>
+    <TokenListContext.Provider
+      value={{
+        token,
+        setToken,
+        fetchTokenData,
+        apiKey,
+      }}
+    >
       {children}
     </TokenListContext.Provider>
   );

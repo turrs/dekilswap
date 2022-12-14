@@ -32,9 +32,45 @@ export const TransactionProvider = ({ children }: TransactionProps) => {
       rootAddress: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
     },
   });
+  const [stateTransaction, setStateTransaction] = useState<any>({
+    tokenOne: {
+      chainI: 137,
+      name: "Matic Token",
+      symbol: "MATIC",
+      decimals: 18,
+      address: "0x0000000000000000000000000000000000001010",
+      logoURI: "https://wallet-asset.matic.network/img/tokens/matic.svg",
+      tags: ["plasma", "erc20", "swapable"],
+      extensions: {
+        rootAddress: "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0",
+      },
+    },
+    tokenTwo: {
+      chainI: 137,
+      name: "Matic Token",
+      symbol: "MATIC",
+      decimals: 18,
+      address: "0x0000000000000000000000000000000000001010",
+      logoURI: "https://wallet-asset.matic.network/img/tokens/matic.svg",
+      tags: ["plasma", "erc20", "swapable"],
+      extensions: {
+        rootAddress: "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0",
+      },
+    },
+    walletAdress: "",
+    quote: "",
+    price: "",
+  });
   return (
     <TransactionContext.Provider
-      value={{ tokenOne, setTokenOne, tokenTwo, setTokenTwo }}
+      value={{
+        tokenOne,
+        setTokenOne,
+        tokenTwo,
+        setTokenTwo,
+        stateTransaction,
+        setStateTransaction,
+      }}
     >
       {children}
     </TransactionContext.Provider>

@@ -14,7 +14,7 @@ import {
 } from "../context/Transaction";
 import { TokenListProvider } from "../context/TokenList";
 const { chains, provider } = configureChains(
-  [chain.mainnet, chain.polygon, chain.optimism, chain.arbitrum],
+  [chain.polygon],
   [
     alchemyProvider({ apiKey: "YTQiZJGziVyT9G8R1BhEYdhZhdQrgEyV" }),
     publicProvider(),
@@ -27,7 +27,6 @@ const { connectors } = getDefaultWallets({
 });
 
 const wagmiClient = createClient({
-  autoConnect: true,
   connectors,
   provider,
 });
@@ -37,7 +36,11 @@ export default function App({ Component, pageProps }: AppProps) {
     <TransactionProvider>
       <TokenListProvider>
         <WagmiConfig client={wagmiClient}>
-          <RainbowKitProvider chains={chains}>
+          <RainbowKitProvider
+            chains={chains}
+            coolMode
+            showRecentTransactions={true}
+          >
             <Component {...pageProps} />
           </RainbowKitProvider>
         </WagmiConfig>

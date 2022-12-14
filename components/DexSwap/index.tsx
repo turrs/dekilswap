@@ -43,7 +43,7 @@ const DexSwap = (props: DexSwapProps) => {
             <>
               {!fixSwapContent && (
                 <div>
-                  <SelectToken type="tokenOne" />
+                  <SelectToken type="tokenOne"  />
                   <div className="flex justify-center items-center py-2 ">
                     <i className="ri-arrow-up-down-line flex justify-center items-center  "></i>
                   </div>
