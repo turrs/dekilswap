@@ -26,6 +26,8 @@ const SelectModal = (type: SelectModalProps) => {
     setTokenOne,
     stateTransaction,
     setStateTransaction,
+    setMaxTokenOne,
+    setMaxTokenTwo,
   } = useContext(TransactionContext);
   function checkAvailability(arr: any, val: any) {
     return arr.some((arrVal: any) => val === arrVal.address);
@@ -78,7 +80,7 @@ const SelectModal = (type: SelectModalProps) => {
         .catch(function (error) {
           console.error(error);
         });
-
+      console.log();
       const nonZeroBalances = await walletBalance.result.tokenBalances.filter(
         (token: any) => {
           return token.tokenBalance !== 0;
@@ -152,22 +154,36 @@ const SelectModal = (type: SelectModalProps) => {
       openModal();
     }
   }, [address]);
-  const selectToken = (type: any, token: any) => {
+  const selectToken = (type: any, token: any, balance: Number) => {
     if (type.type.type === TokenOneString) {
-      setTokenOne(token);
-      setShowModal(false);
+      if (balance !== undefined) {
+        setTokenOne(token);
+        setShowModal(false);
+        setMaxTokenOne(balance);
+      } else {
+        setTokenOne(token);
+        setShowModal(false);
+        setMaxTokenOne(0);
+      }
     }
     if (type.type.type === "tokenTwo") {
-      setTokenTwo(token);
-      setShowModal(false);
+      if (balance !== undefined) {
+        setTokenTwo(token);
+        setShowModal(false);
+        setMaxTokenTwo(balance);
+      } else {
+        setTokenOne(token);
+        setShowModal(false);
+        setMaxTokenOne(0);
+      }
     }
   };
-  useEffect(() => {}, [tokenOne, tokenTwo]);
+
   return (
-    <div>
+    <div className="">
       <div
-        className="flex flex-row w-full h-full  rounded-md hover:bg-slate-50 cursor-pointer"
         onClick={openModal}
+        className="flex flex-row w-full h-full min-h-[25px] rounded-md hover:bg-slate-50 cursor-pointer"
       >
         <div className="flex items-center justify-center ">
           {loading ? (
@@ -214,7 +230,7 @@ const SelectModal = (type: SelectModalProps) => {
         <p></p>
       ) : (
         showModal && (
-          <div className="fixed inset-0 z-10 overflow-y-auto shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] transition ease-in-out delay-150 bg-cyan-500 hover:-translate-y-1 hover:scale-80 hover:bg-indigo-cyan duration-100 ">
+          <div className="fixed inset-0 z-10 overflow-y-auto shadow-[rgba(0,_0,_0,_0.24)_0px_3px_8px] ">
             <div
               className="fixed inset-0 w-full h-full bg-black opacity-40"
               onClick={() => setShowModal(false)}
@@ -251,7 +267,9 @@ const SelectModal = (type: SelectModalProps) => {
                               <div
                                 key={key}
                                 className="flex flex-row py-3 pl-2  rounded hover:bg-slate-200"
-                                onClick={() => selectToken(type, token)}
+                                onClick={() =>
+                                  selectToken(type, token, token.balance)
+                                }
                               >
                                 <div className=" bg-slate-50 rounded  flex justify-center items-center">
                                   <div className="p-2">

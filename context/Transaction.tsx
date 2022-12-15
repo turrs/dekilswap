@@ -9,27 +9,31 @@ type TransactionProps = {
 
 export const TransactionProvider = ({ children }: TransactionProps) => {
   const [tokenOne, setTokenOne] = useState<any>({
-    chainI: 137,
-    name: "Matic Token",
-    symbol: "MATIC",
+    chainI: "",
+    name: "",
+    symbol: "",
     decimals: 18,
-    address: "0x0000000000000000000000000000000000001010",
-    logoURI: "https://wallet-asset.matic.network/img/tokens/matic.svg",
-    tags: ["plasma", "erc20", "swapable"],
+    address: "",
+    logoURI: "",
+    tags: [],
     extensions: {
-      rootAddress: "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0",
+      rootAddress: "",
     },
   });
+  const [maxTokenOne, setMaxTokenOne] = useState<Number>(0);
+  const [maxTokenTwo, setMaxTokenTwo] = useState<Number>(0);
+  const [tokenAmountOne, setTokenAmountOne] = useState<Number>(0);
+  const [tokenAmountTwo, setTokenAmountTwo] = useState<Number>(0);
   const [tokenTwo, setTokenTwo] = useState<any>({
     chainId: 137,
-    name: "USD Coin",
-    symbol: "USDC",
-    decimals: 6,
-    address: "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-    logoURI: "https://wallet-asset.matic.network/img/tokens/usdc.svg",
-    tags: ["pos", "stablecoin", "erc20", "metaTx", "swapable"],
+    name: "",
+    symbol: "",
+    decimals: "",
+    address: "",
+    logoURI: "",
+    tags: [],
     extensions: {
-      rootAddress: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+      rootAddress: "",
     },
   });
   const [stateTransaction, setStateTransaction] = useState<any>({
@@ -70,6 +74,14 @@ export const TransactionProvider = ({ children }: TransactionProps) => {
         setTokenTwo,
         stateTransaction,
         setStateTransaction,
+        tokenAmountTwo,
+        setTokenAmountTwo,
+        tokenAmountOne,
+        setTokenAmountOne,
+        maxTokenTwo,
+        setMaxTokenTwo,
+        maxTokenOne,
+        setMaxTokenOne,
       }}
     >
       {children}

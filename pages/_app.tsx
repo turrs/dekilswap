@@ -5,7 +5,7 @@ import { publicProvider } from "wagmi/providers/public";
 import "@rainbow-me/rainbowkit/styles.css";
 import "remixicon/fonts/remixicon.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
 
 import { ReactNode, useContext } from "react";
 import {
@@ -13,8 +13,9 @@ import {
   TransactionContext,
 } from "../context/Transaction";
 import { TokenListProvider } from "../context/TokenList";
+import { polygon } from "wagmi/chains";
 const { chains, provider } = configureChains(
-  [chain.polygon],
+  [polygon],
   [
     alchemyProvider({ apiKey: "YTQiZJGziVyT9G8R1BhEYdhZhdQrgEyV" }),
     publicProvider(),
