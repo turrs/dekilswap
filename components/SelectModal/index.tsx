@@ -172,9 +172,9 @@ const SelectModal = (type: SelectModalProps) => {
         setShowModal(false);
         setMaxTokenTwo(balance);
       } else {
-        setTokenOne(token);
+        setTokenTwo(token);
         setShowModal(false);
-        setMaxTokenOne(0);
+        setMaxTokenTwo(0);
       }
     }
   };
