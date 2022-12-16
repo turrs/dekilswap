@@ -1,17 +1,17 @@
-import { useConnectModal } from "@rainbow-me/rainbowkit";
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
-import { useAccount } from "wagmi";
-import { TransactionContext } from "../../context/Transaction";
-import FixSwap from "../FixSwap";
-import { getAmountTokenSell, getPrice, getQuote } from "../FunctionAPI";
-import SelectToken from "../SelectToken";
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { useAccount } from 'wagmi';
+import { TransactionContext } from '../../context/Transaction';
+import FixSwap from '../FixSwap';
+import { getAmountTokenSell, getPrice, getQuote } from '../FunctionAPI';
+import SelectToken from '../SelectToken';
 
 type DexSwapProps = {};
 
 const DexSwap = (props: DexSwapProps) => {
   const [loading, setLoading] = useState<DexSwapProps | false>(false);
   const [fixSwapContent, setFixSwapContent] = useState<DexSwapProps | false>(
-    false
+    false,
   );
   const { openConnectModal } = useConnectModal();
   const {
@@ -23,6 +23,8 @@ const DexSwap = (props: DexSwapProps) => {
     setTokenOne,
     setTokenTwo,
     maxTokenOne,
+    quote,
+    setQuote,
   } = useContext(TransactionContext);
   const { address } = useAccount();
   const ReviewSwap = async (
@@ -30,13 +32,19 @@ const DexSwap = (props: DexSwapProps) => {
     tokenTwo: any,
     tokenAmountOne: any,
     address: any,
-    maxTokenOne: Number
+    maxTokenOne: Number,
   ) => {
     setLoading(true);
     if (tokenAmountOne < maxTokenOne) {
-      await getQuote(tokenOne, tokenTwo, tokenAmountOne, address);
+      const quoteJson = await getQuote(
+        tokenOne,
+        tokenTwo,
+        tokenAmountOne,
+        address,
+      );
+      setQuote(quoteJson);
     } else {
-      alert("balance not cukup");
+      alert('balance not cukup');
     }
     setLoading(false);
     setFixSwapContent(true);
@@ -52,14 +60,14 @@ const DexSwap = (props: DexSwapProps) => {
   const getAmount = async (
     tokenOne: any,
     tokenTwo: any,
-    tokenAmountOne: any
+    tokenAmountOne: any,
   ) => {
     const amountTokenSell = await getAmountTokenSell(
       tokenOne,
       tokenTwo,
-      tokenAmountOne
+      tokenAmountOne,
     ).then((res) => {
-      console.log("kokaa", res);
+      console.log('kokaa', res);
       setTokenAmountTwo(res);
       setLoading(false);
     });
@@ -70,7 +78,7 @@ const DexSwap = (props: DexSwapProps) => {
     setTokenTwo(temp);
   };
   useEffect(() => {
-    console.log("changeee", tokenOne);
+    console.log('changeee', tokenOne);
 
     getAmount(tokenOne, tokenTwo, tokenAmountOne);
   }, [tokenOne, tokenTwo, tokenAmountOne, loading]);
@@ -118,11 +126,11 @@ const DexSwap = (props: DexSwapProps) => {
                 tokenTwo,
                 tokenAmountOne,
                 address,
-                maxTokenOne
+                maxTokenOne,
               )
             }
             className={`flex items-center ${
-              tokenAmountOne > maxTokenOne ? "bg-slate-300" : "bg-blue-500 "
+              tokenAmountOne > maxTokenOne ? 'bg-slate-300' : 'bg-blue-500 '
             } w-full justify-center rounded-xl border-4 border-black hover:cursor-pointer px-8 py-4 font-bold shadow-[6px_6px_0_0_#000] transition hover:shadow-none focus:outline-none focus:ring active:bg-pink-50`}
           >
             <div>
