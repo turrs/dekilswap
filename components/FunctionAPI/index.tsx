@@ -14,7 +14,6 @@ export const getPrice = async (
       `/price?sellToken=${tokenOne.address}&buyToken=${tokenTwo.address}&sellAmount=${tokenAmount}`,
     )
       .then((res) => {
-        console.log(res.data);
         return res.data;
       })
       .catch((err) => {
@@ -49,6 +48,23 @@ export const getAmountTokenSell = async (
     return result;
   } catch (err) {}
 };
+export const getQuoteWithoutAdress = async (
+  tokenOne: any,
+  tokenTwo: any,
+  tokenAmountOne: any,
+) => {
+  try {
+    let tokenAmount = tokenAmountOne * 10 ** tokenOne.decimals;
+    const result = await PriceToken.get(
+      `/quote?sellToken=${tokenOne.address}&buyToken=${tokenTwo.address}&sellAmount=${tokenAmount}`,
+    ).then((res) => {
+      return res;
+    });
+    return result;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const getQuote = async (
   tokenOne: any,
@@ -65,8 +81,14 @@ export const getQuote = async (
         return res;
       });
       return result;
-    } catch (res) {
-      console.log(res);
+    } catch (err: any) {
+      console.log(err);
+      if (
+        err.response.data.values.message ===
+        'ERC20: transfer amount exceeds allowance'
+      ) {
+        return 'need approve';
+      }
       continue; // go again
     }
     break;

@@ -1,6 +1,6 @@
-import React, { ChangeEvent, useContext, useEffect } from "react";
-import { TransactionContext } from "../../context/Transaction";
-import SelectModal from "../SelectModal";
+import React, { ChangeEvent, useContext, useEffect } from 'react';
+import { TransactionContext } from '../../context/Transaction';
+import SelectModal from '../SelectModal';
 
 type SelectTokenProps = {
   type: any;
@@ -19,13 +19,11 @@ const SelectToken = (type: SelectTokenProps) => {
   } = useContext(TransactionContext);
   const handleChange = (event: ChangeEvent<HTMLInputElement>, type: any) => {
     // do the rest here
-    console.log(type);
-    if (type?.type === "tokenOne") {
-      console.log("ni pertama", event.target.value);
+
+    if (type?.type === 'tokenOne') {
       setTokenAmountOne(event.target.value);
     }
-    if (type?.type === "tokenTwo") {
-      console.log("ni kedua", event.target.value);
+    if (type?.type === 'tokenTwo') {
     }
   };
   const handleMax = (maxTokenOne: any) => {
@@ -39,21 +37,21 @@ const SelectToken = (type: SelectTokenProps) => {
       <div className="pb-2 flex flex-row justify-between">
         <div>
           <p className="font-mono font-semibold text-slate-600 text-sm ">
-            {type.type === "tokenOne" ? "You Pay" : "You Receive"}
+            {type.type === 'tokenOne' ? 'You Pay' : 'You Receive'}
           </p>
         </div>
         <div>
           <p
             className={`font-mono font-semibold text-slate-400  text-xs ${
-              type.type === "tokenOne"
-                ? "hover:cursor-pointer hover:underline"
-                : ""
+              type.type === 'tokenOne'
+                ? 'hover:cursor-pointer hover:underline'
+                : ''
             }`}
             onClick={() => handleMax(maxTokenOne)}
           >
-            {type.type === "tokenOne"
-              ? "Max " + maxTokenOne + " " + tokenOne.symbol
-              : "Balance " + maxTokenTwo + " " + tokenTwo.symbol}
+            {type.type === 'tokenOne'
+              ? 'Max ' + maxTokenOne + ' ' + tokenOne.symbol
+              : 'Balance ' + maxTokenTwo + ' ' + tokenTwo.symbol}
           </p>
         </div>
       </div>
@@ -66,7 +64,7 @@ const SelectToken = (type: SelectTokenProps) => {
             <input
               type="number"
               value={
-                type?.type === "tokenOne" ? tokenAmountOne : tokenAmountTwo
+                type?.type === 'tokenOne' ? tokenAmountOne : tokenAmountTwo
               }
               onChange={(e) => handleChange(e, type)}
               className="bg-slate-100 text-end font-mono font-semibold outline-0"

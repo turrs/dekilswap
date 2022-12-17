@@ -7,10 +7,7 @@ type FixSwapProps = {};
 const FixSwap = () => {
   const { tokenAmountOne, tokenOne, tokenTwo, quote } =
     useContext(TransactionContext);
-  useEffect(() => {
-    console.log(quote);
-    console.log('jalannin');
-  }, [quote]);
+  useEffect(() => {}, [quote]);
 
   return (
     <div className="flex flex-col">

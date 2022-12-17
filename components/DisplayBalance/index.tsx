@@ -1,7 +1,7 @@
-import React, { useContext } from "react";
-import { useAccount } from "wagmi";
-import axios from "axios";
-import { TokenListContext } from "../../context/TokenList";
+import React, { useContext } from 'react';
+import { useAccount } from 'wagmi';
+import axios from 'axios';
+import { TokenListContext } from '../../context/TokenList';
 type DisplayBalanceProps = {
   contractAddress: any;
 };
@@ -11,14 +11,11 @@ const DisplayBalance = ({ contractAddress }: DisplayBalanceProps) => {
   const { apiKey } = useContext(TokenListContext);
 
   const baseURL = `https://eth-mainnet.g.alchemy.com/v2/${apiKey}`;
-  console.log("adress nih ", address);
   // Replace with the wallet address you want to query:
   const ownerAddr = address;
 
   // Replace with the token contract address you want to query:
   const tokenAddr = contractAddress;
-  console.log("adress nih ", address);
-  console.log(" ca adress nih ", contractAddress);
   //   var data = JSON.stringify({
   //     jsonrpc: "2.0",
   //     method: "alchemy_getTokenBalances",
