@@ -236,21 +236,6 @@
         "extensions": {
           "rootAddress": "0x6c28AeF8977c9B773996d0e8376d2EE379446F2f"
         }
-      },
-      {
-        "chainId": 137,
-        "name": "Apecoin",
-        "symbol": "APE",
-        "decimals": 18,
-        "address": "0xb7b31a6bc18e48888545ce79e83e06003be70930",
-        "logoURI": "https://wallet-asset.matic.network/img/tokens/ape.svg",
-        "tags": [
-          "pos",
-          "erc20"
-        ],
-        "extensions": {
-          "rootAddress": "0x4d224452801aced8b2f0aebe155379bb5d594381"
-        }
-      }
+      }  
     ]
   }
