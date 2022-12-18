@@ -1,6 +1,6 @@
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
-import { erc20ABI, useAccount } from 'wagmi';
+import { useAccount } from 'wagmi';
 import Web3 from 'web3';
 import { TransactionContext } from '../../context/Transaction';
 import FixSwap from '../FixSwap';
@@ -12,6 +12,8 @@ import {
 } from '../FunctionAPI';
 import { BigNumber } from '@0x/utils';
 import SelectToken from '../SelectToken';
+import { AbiItem } from 'web3-utils';
+import { erc20abi } from '../../utils/Abi';
 
 type DexSwapProps = {};
 
@@ -78,7 +80,7 @@ const DexSwap = (props: DexSwapProps) => {
     const web3 = new Web3(Web3.givenProvider);
 
     const ERC20TokenContract = new web3.eth.Contract(
-      erc20ABI,
+      erc20abi as AbiItem[],
       contractTokenOne,
     );
 

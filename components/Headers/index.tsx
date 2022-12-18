@@ -1,6 +1,6 @@
-import React from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import Link from "next/link";
+import React from 'react';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import Link from 'next/link';
 type indexProps = {
   test: String;
   ayam?: String;
@@ -30,16 +30,7 @@ const Headers = ({ test, ayam }: indexProps) => {
 
           <div className="md:flex md:items-center md:gap-12">
             <nav aria-label="Site Nav" className="hidden md:block">
-              <ul className="flex items-center gap-6 text-sm">
-                <li>
-                  <Link
-                    className="text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                    href="/"
-                  >
-                    About
-                  </Link>
-                </li>
-              </ul>
+              <ul className="flex items-center gap-6 text-sm"></ul>
             </nav>
 
             <div className="flex items-center gap-4">

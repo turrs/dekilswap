@@ -76,10 +76,11 @@ const SelectModal = (type: SelectModalProps) => {
           return response.data;
         })
         .catch(function (error) {
+          alert(error);
           console.error(error);
         });
 
-      const nonZeroBalances = await walletBalance.result.tokenBalances.filter(
+      const nonZeroBalances = await walletBalance?.result.tokenBalances.filter(
         (token: any) => {
           return token.tokenBalance !== 0;
         },
