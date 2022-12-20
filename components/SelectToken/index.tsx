@@ -27,7 +27,7 @@ const SelectToken = (type: SelectTokenProps) => {
     }
   };
   const handleMax = (maxTokenOne: any) => {
-    setTokenAmountOne(maxTokenOne);
+    setTokenAmountOne(maxTokenOne - 0.0001);
   };
 
   useEffect(() => {}, [tokenAmountTwo]);

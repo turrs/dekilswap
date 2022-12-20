@@ -75,8 +75,6 @@ const DexSwap = (props: DexSwapProps) => {
     address: any,
     contractTokenOne: any,
   ) => {
-    const web3e = new Web3();
-
     const web3 = new Web3(Web3.givenProvider);
 
     const ERC20TokenContract = new web3.eth.Contract(
