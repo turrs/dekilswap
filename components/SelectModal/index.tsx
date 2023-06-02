@@ -1,10 +1,10 @@
-import React, { ContextType, useContext, useEffect, useState } from 'react';
-import { TokenListContext } from '../../context/TokenList';
-import { TransactionContext } from '../../context/Transaction';
-import { ListToken } from '../../utils';
-import axios from 'axios';
-import DisplayBalance from '../DisplayBalance';
-import { useAccount } from 'wagmi';
+import React, { ContextType, useContext, useEffect, useState } from "react";
+import { TokenListContext } from "../../context/TokenList";
+import { TransactionContext } from "../../context/Transaction";
+import ListToken from "../../utils/TokenList/tokenlist.json";
+import axios from "axios";
+import DisplayBalance from "../DisplayBalance";
+import { useAccount } from "wagmi";
 
 type SelectModalProps = {
   type: any;
@@ -34,7 +34,7 @@ const SelectModal = (type: SelectModalProps) => {
   }
   function findObjectToken(arr: any, value: any) {
     if (Array.isArray(arr)) {
-      return arr.find((balance) => {
+      return arr.find(balance => {
         return balance.contractAddress === value ? 1 : 2;
       });
     }
@@ -42,7 +42,7 @@ const SelectModal = (type: SelectModalProps) => {
   const { address } = useAccount();
   const fetchDataNull = async () => {
     setLoading(true);
-    const responseListToken = await ListToken.get('').then((res) => {
+    const responseListToken = await ListToken.get("").then(res => {
       setListToken(res.data.tokens);
       return res.data.tokens;
     });
@@ -50,22 +50,22 @@ const SelectModal = (type: SelectModalProps) => {
   };
   const fetchData = async (address: String | undefined, apiKey: String) => {
     setLoading(true);
-    const responseListToken = await ListToken.get('').then((res) => {
+    const responseListToken = await ListToken.get("").then(res => {
       setListToken(res.data.tokens);
       return res.data.tokens;
     });
     if (address !== undefined) {
       const options = {
-        method: 'POST',
+        method: "POST",
         url: `https://polygon-mainnet.g.alchemy.com/v2/${apiKey}`,
         headers: {
-          accept: 'application/json',
-          'content-type': 'application/json',
+          accept: "application/json",
+          "content-type": "application/json",
         },
         data: {
           id: 1,
-          jsonrpc: '2.0',
-          method: 'alchemy_getTokenBalances',
+          jsonrpc: "2.0",
+          method: "alchemy_getTokenBalances",
           params: [address],
         },
       };
@@ -83,7 +83,7 @@ const SelectModal = (type: SelectModalProps) => {
       const nonZeroBalances = await walletBalance?.result.tokenBalances.filter(
         (token: any) => {
           return token.tokenBalance !== 0;
-        },
+        }
       );
 
       let i = 1;
@@ -94,16 +94,16 @@ const SelectModal = (type: SelectModalProps) => {
 
           // options for making a request to get the token metadata
           const options = {
-            method: 'POST',
-            url: 'https://polygon-mainnet.g.alchemy.com/v2/YTQiZJGziVyT9G8R1BhEYdhZhdQrgEyV',
+            method: "POST",
+            url: "https://polygon-mainnet.g.alchemy.com/v2/YTQiZJGziVyT9G8R1BhEYdhZhdQrgEyV",
             headers: {
-              accept: 'application/json',
-              'content-type': 'application/json',
+              accept: "application/json",
+              "content-type": "application/json",
             },
             data: {
               id: 1,
-              jsonrpc: '2.0',
-              method: 'alchemy_getTokenMetadata',
+              jsonrpc: "2.0",
+              method: "alchemy_getTokenMetadata",
               params: [token.contractAddress],
             },
           };
@@ -112,7 +112,7 @@ const SelectModal = (type: SelectModalProps) => {
           const metadata = await axios.request(options);
 
           // Compute token balance in human-readable format
-          balance = balance / Math.pow(10, metadata['data']['result'].decimals);
+          balance = balance / Math.pow(10, metadata["data"]["result"].decimals);
           balance = balance.toFixed(2);
 
           const dataBalance = {
@@ -141,7 +141,7 @@ const SelectModal = (type: SelectModalProps) => {
     // Get balance of token
     setLoading(false);
   };
-  const TokenOneString = 'tokenOne';
+  const TokenOneString = "tokenOne";
   const openModal = async () => {
     setLoading(true);
     await fetchData(address, apiKey);
@@ -165,7 +165,7 @@ const SelectModal = (type: SelectModalProps) => {
         setMaxTokenOne(0);
       }
     }
-    if (type.type.type === 'tokenTwo') {
+    if (type.type.type === "tokenTwo") {
       if (balance !== undefined) {
         setTokenTwo(token);
         setShowModal(false);
@@ -295,7 +295,7 @@ const SelectModal = (type: SelectModalProps) => {
                                 </div>
                               </div>
                             );
-                          },
+                          }
                         )
                       )}
                     </div>
