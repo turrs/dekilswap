@@ -48,12 +48,24 @@
   "timestamp": "2022-11-29T05:57:13.384Z",
   "tokens": [
     {
-      "chainId": 137,
+      "chainId": 245022926,
       "name": "wNEON",
       "symbol": "wNeon",
       "decimals": 18,
       "address": "0x11adC2d986E334137b9ad0a0F290771F31e9517F",
       "logoURI": "https://docs.neonfoundation.io/img/logo.svg",
+      "tags": ["pos", "erc20", "swapable", "metaTx"],
+      "extensions": {
+        "rootAddress": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      }
+    },
+    {
+      "chainId": 245022926,
+      "name": "USDT",
+      "symbol": "USDT",
+      "decimals": 18,
+      "address": "0x6eEf939FC6e2B3F440dCbB72Ea81Cd63B5a519A5",
+      "logoURI": "https://moraswap.com/_next/image?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcompound-finance%2Ftoken-list%2Fmaster%2Fassets%2Fasset_USDT.svg&w=48&q=50",
       "tags": ["pos", "erc20", "swapable", "metaTx"],
       "extensions": {
         "rootAddress": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"

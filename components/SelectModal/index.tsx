@@ -1,7 +1,7 @@
 import React, { ContextType, useContext, useEffect, useState } from "react";
 import { TokenListContext } from "../../context/TokenList";
 import { TransactionContext } from "../../context/Transaction";
-import ListToken from "../../utils/TokenList/tokenlist.json";
+import { ListToken } from "../../utils";
 import axios from "axios";
 import DisplayBalance from "../DisplayBalance";
 import { useAccount } from "wagmi";
