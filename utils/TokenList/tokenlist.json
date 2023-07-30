@@ -48,27 +48,27 @@
   "timestamp": "2022-11-29T05:57:13.384Z",
   "tokens": [
     {
-      "chainId": 245022926,
-      "name": "wNEON",
-      "symbol": "wNeon",
+      "chainId": 137,
+      "name": "Matic Token",
+      "symbol": "MATIC",
       "decimals": 18,
-      "address": "0x11adC2d986E334137b9ad0a0F290771F31e9517F",
-      "logoURI": "https://docs.neonfoundation.io/img/logo.svg",
-      "tags": ["pos", "erc20", "swapable", "metaTx"],
+      "address": "0x0000000000000000000000000000000000001010",
+      "logoURI": "https://assets.polygon.technology/tokenAssets/matic.svg",
+      "tags": ["plasma", "erc20", "swapable"],
       "extensions": {
-        "rootAddress": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        "rootAddress": "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0"
       }
     },
     {
-      "chainId": 245022926,
-      "name": "USDT",
-      "symbol": "USDT",
-      "decimals": 18,
-      "address": "0x6eEf939FC6e2B3F440dCbB72Ea81Cd63B5a519A5",
-      "logoURI": "https://moraswap.com/_next/image?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcompound-finance%2Ftoken-list%2Fmaster%2Fassets%2Fasset_USDT.svg&w=48&q=50",
-      "tags": ["pos", "erc20", "swapable", "metaTx"],
+      "chainId": 137,
+      "name": "USD Coin",
+      "symbol": "USDC",
+      "decimals": 6,
+      "address": "0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+      "logoURI": "https://assets.polygon.technology/tokenAssets/usdc.svg",
+      "tags": ["pos", "erc20", "swapable", "metaTx", "stablecoin"],
       "extensions": {
-        "rootAddress": "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        "rootAddress": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
       }
     }
   ]
